@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net461;net7.0-windows</TargetFrameworks>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'net7.0-windows'">
@@ -55,37 +56,6 @@
 
   </Target>
 
-  <!-- Merge plugins and other DLLs into the executable -->
-  <Target Name="Merge" BeforeTargets="AfterBuild" Condition="'$(TargetFramework)' != 'net7.0-windows'">
 
-    <PropertyGroup>
-      <InputAssemblies>"$(OutDir)$(TargetFileName)"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)WinSW.Core.dll"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)WinSW.Plugins.dll"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)log4net.dll"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)System.CommandLine.dll"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)System.Buffers.dll"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)System.Memory.dll"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)System.Numerics.Vectors.dll"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)System.Runtime.CompilerServices.Unsafe.dll"</InputAssemblies>
-      <InputAssemblies>$(InputAssemblies) "$(OutDir)System.ValueTuple.dll"</InputAssemblies>
-      <OutputAssembly>"$(ArtifactsPublishDir)WinSW-$(TargetFramework).exe"</OutputAssembly>
-    </PropertyGroup>
-
-    <PropertyGroup>
-      <ILMerge>$(NuGetPackageRoot)ilmerge\$(ILMergeVersion)\tools\net452\ILMerge.exe</ILMerge>
-      <ILMergeArgs>/targetplatform:v4.5 /out:$(OutputAssembly) $(InputAssemblies)</ILMergeArgs>
-      <ILMergeCommand>"$(ILMerge)" $(ILMergeArgs)</ILMergeCommand>
-    </PropertyGroup>
-
-    <MakeDir Directories="$(ArtifactsPublishDir)" />
-    <Exec Command="$(ILMergeCommand)" />
-
-  </Target>
-
-  <UsingTask TaskName="WinSW.Tasks.Trim" AssemblyFile="$(ArtifactsBinDir)WinSW.Tasks\$(Configuration)\net461\WinSW.Tasks.dll" />
-  <Target Name="Trim" AfterTargets="Merge" Condition="'$(TargetFramework)' != 'net7.0-windows'">
-    <Trim Path="$(ArtifactsPublishDir)WinSW-$(TargetFramework).exe" />
-  </Target>
 
 </Project>
