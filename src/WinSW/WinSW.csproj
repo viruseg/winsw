@@ -12,6 +12,9 @@
     <Company>CloudBees, Inc.</Company>
     <Product>Windows Service Wrapper</Product>
     <Copyright>Copyright (c) 2008-2020 Kohsuke Kawaguchi, Sun Microsystems, Inc., CloudBees, Inc., Oleg Nenashev and other contributors</Copyright>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.11</FileVersion>
+    <InformationalVersion>3.0.0-alpha.11</InformationalVersion>
   </PropertyGroup>
 
   <PropertyGroup>
