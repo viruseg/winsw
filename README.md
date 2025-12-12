@@ -1,3 +1,8 @@
+### Changes compared to the original repository.
+- It is based on version 3.
+- Upgrade to .NET 10.
+- `<log mode="none"/>` disables it `.wrapper.log`.
+
 # Windows Service Wrapper in a permissive license
 
 [![Github All Releases](https://img.shields.io/github/downloads/winsw/winsw/total?style=flat-square)](https://github.com/winsw/winsw/releases)
