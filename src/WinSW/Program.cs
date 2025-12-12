@@ -1131,21 +1131,26 @@ namespace WinSW
                 config = new XmlServiceConfig(path);
             }
 
-            // .wrapper.log
-            string wrapperLogPath = Path.Combine(config.LogDirectory, config.BaseName + ".wrapper.log");
-            var fileAppender = new FileAppender
-            {
-                AppendToFile = true,
-                File = wrapperLogPath,
-                ImmediateFlush = true,
-                Name = "Wrapper file log",
-                Threshold = fileLogLevel,
-                LockingModel = new FileAppender.MinimalLock(),
-                Layout = new PatternLayout("%date{yyyy-MM-ddTHH:mm:ss.fff} %-5level %logger - %message%newline"),
-            };
-            fileAppender.ActivateOptions();
+            var isLoggingEnabled = config.LogMode != "none";
 
-            BasicConfigurator.Configure(repository, fileAppender);
+            if (isLoggingEnabled)
+            {
+                // .wrapper.log
+                string wrapperLogPath = Path.Combine(config.LogDirectory, config.BaseName + ".wrapper.log");
+                var fileAppender = new FileAppender
+                {
+                    AppendToFile = true,
+                    File = wrapperLogPath,
+                    ImmediateFlush = true,
+                    Name = "Wrapper file log",
+                    Threshold = fileLogLevel,
+                    LockingModel = new FileAppender.MinimalLock(),
+                    Layout = new PatternLayout("%date{yyyy-MM-ddTHH:mm:ss.fff} %-5level %logger - %message%newline"),
+                };
+                fileAppender.ActivateOptions();
+
+                BasicConfigurator.Configure(repository, fileAppender);
+            }
 
             return config;
         }
